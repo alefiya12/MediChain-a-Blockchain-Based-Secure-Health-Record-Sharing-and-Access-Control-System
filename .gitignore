@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Environment files — NEVER commit these
+.env
+
+# Encrypted medical files — never commit
+backend/storage/*
+!backend/storage/.gitkeep
+
+# Hardhat artifacts and cache
+blockchain/artifacts/
+blockchain/cache/
+blockchain/coverage/
+blockchain/coverage.json
+
+# Frontend build
+dist/
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
