@@ -1,13 +1,18 @@
-// Phase 1 stub — real implementation in Phase 3
-import express from "express";
+import app from "./app.js";
+import { env } from "./config/env.js";
+import { connectDB } from "./config/db.js";
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const startServer = async () => {
+  try {
+    await connectDB();
 
-app.get("/api/health", (_req, res) => {
-  res.json({ success: true, message: "MediChain backend up" });
-});
+    app.listen(env.PORT, () => {
+      console.log(`🚀 MediChain backend listening on port ${env.PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start MediChain backend:", error.message);
+    process.exit(1);
+  }
+};
 
-app.listen(PORT, () => {
-  console.log(`MediChain backend up on port ${PORT}`);
-});
+startServer();
