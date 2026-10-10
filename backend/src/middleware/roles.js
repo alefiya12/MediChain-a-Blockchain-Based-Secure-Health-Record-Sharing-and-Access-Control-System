@@ -22,4 +22,7 @@ export const requireRole = (...roles) => {
   };
 };
 
+export { requireApprovedDoctor } from "./doctor.js";
+
 export default requireRole;
+

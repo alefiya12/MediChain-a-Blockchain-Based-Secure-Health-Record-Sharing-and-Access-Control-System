@@ -32,12 +32,15 @@ app.use(
   })
 );
 
-// 3. Rate limiters
+// 3. Rate limiters (skipped in test mode)
+const isTest = process.env.NODE_ENV === "test";
+
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // 100 requests per 15 minutes
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isTest,
   message: {
     success: false,
     message: "Too many requests from this IP, please try again after 15 minutes"
@@ -50,16 +53,18 @@ const authLimiter = rateLimit({
   max: 10, // 10 requests per 15 minutes on login/register
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isTest,
   message: {
     success: false,
     message: "Too many authentication attempts, please try again after 15 minutes"
   }
 });
 
-// 4. Morgan HTTP logger in dev
-if (process.env.NODE_ENV !== "production") {
+// 4. Morgan HTTP logger in dev (disabled in test)
+if (process.env.NODE_ENV !== "production" && !isTest) {
   app.use(morgan("dev"));
 }
+
 
 // 5. Body parser with 1mb limit
 app.use(express.json({ limit: "1mb" }));
