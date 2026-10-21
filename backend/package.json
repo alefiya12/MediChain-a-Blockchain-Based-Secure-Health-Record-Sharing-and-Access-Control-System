@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node tests/phase12.test.js",
+    "test:all": "node tests/phase12.test.js && node tests/phase11.test.js && node tests/phase10.test.js && node tests/phase9.test.js && node tests/phase7.test.js",
+    "test:persistence": "node tests/verify_persistence.js",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "seed:admin": "node src/scripts/seedAdmin.js"
+    "db:viewer": "node src/scripts/dbViewer.js",
+    "seed:admin": "node src/scripts/seedAdmin.js",
+    "seed:demo": "node src/scripts/seedDemo.js"
   },
   "keywords": [],
   "author": "",

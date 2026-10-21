@@ -8,6 +8,11 @@ node_modules/
 backend/storage/*
 !backend/storage/.gitkeep
 
+# Persistent local database files
+backend/data/
+data/
+
+
 # Hardhat artifacts and cache
 blockchain/artifacts/
 blockchain/cache/

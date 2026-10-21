@@ -26,7 +26,7 @@ const doctorProfileSchema = new mongoose.Schema(
     },
     experienceYears: {
       type: Number,
-      required: [true, "Experience in years is required"],
+      default: 0,
       min: [0, "Experience years cannot be negative"]
     },
     status: {

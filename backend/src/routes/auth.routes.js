@@ -51,6 +51,7 @@ const registerValidation = [
     .withMessage("Hospital name is required for doctors"),
   body("experienceYears")
     .if(body("role").equals("doctor"))
+    .optional({ checkFalsy: true })
     .isNumeric()
     .withMessage("Experience in years must be a number")
 ];

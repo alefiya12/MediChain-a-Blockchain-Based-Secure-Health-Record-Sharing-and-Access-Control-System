@@ -33,14 +33,14 @@ app.use(
 );
 
 // 3. Rate limiters (skipped in test mode)
-const isTest = process.env.NODE_ENV === "test";
+const isTestMode = () => process.env.NODE_ENV === "test";
 
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // 100 requests per 15 minutes
   standardHeaders: true,
   legacyHeaders: false,
-  skip: () => isTest,
+  skip: () => isTestMode(),
   message: {
     success: false,
     message: "Too many requests from this IP, please try again after 15 minutes"
@@ -53,7 +53,7 @@ const authLimiter = rateLimit({
   max: 10, // 10 requests per 15 minutes on login/register
   standardHeaders: true,
   legacyHeaders: false,
-  skip: () => isTest,
+  skip: () => isTestMode(),
   message: {
     success: false,
     message: "Too many authentication attempts, please try again after 15 minutes"
@@ -61,9 +61,12 @@ const authLimiter = rateLimit({
 });
 
 // 4. Morgan HTTP logger in dev (disabled in test)
-if (process.env.NODE_ENV !== "production" && !isTest) {
-  app.use(morgan("dev"));
-}
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV !== "production" && !isTestMode()) {
+    return morgan("dev")(req, res, next);
+  }
+  next();
+});
 
 
 // 5. Body parser with 1mb limit
@@ -75,6 +78,11 @@ app.use((req, res, next) => {
   if (req.body) mongoSanitize.sanitize(req.body);
   if (req.params) mongoSanitize.sanitize(req.params);
   next();
+});
+
+// Web Database Explorer redirects
+app.get(["/db", "/database", "/db-explorer"], (_req, res) => {
+  res.redirect("http://localhost:8081");
 });
 
 // Health check endpoint
@@ -100,6 +108,14 @@ app.use("/api/patient", patientRoutes);
 app.use("/api/doctor", doctorRoutes);
 app.use("/api/records", recordRoutes);
 app.use("/api/access", accessRoutes);
+
+// 404 handler — must come after all route mounts, before the error handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.method} ${req.originalUrl}`
+  });
+});
 
 // Error handler middleware (must be last)
 app.use(errorHandler);

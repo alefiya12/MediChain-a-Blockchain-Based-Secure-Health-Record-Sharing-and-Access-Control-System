@@ -83,7 +83,7 @@ export const register = asyncHandler(async (req, res) => {
       licenseNumber,
       specialization,
       hospital,
-      experienceYears: Number(experienceYears),
+      experienceYears: experienceYears !== undefined && experienceYears !== "" ? Number(experienceYears) : 0,
       status: "pending"
     });
 
@@ -128,7 +128,7 @@ export const register = asyncHandler(async (req, res) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email: email.toLowerCase() });
+  const user = await User.findOne({ email: email.toLowerCase() }).select("+passwordHash");
   if (!user) {
     throw ApiError.unauthorized("Invalid email or password");
   }

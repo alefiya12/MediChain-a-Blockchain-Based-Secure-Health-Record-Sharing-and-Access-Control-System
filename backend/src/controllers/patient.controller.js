@@ -1,5 +1,6 @@
 import { MedicalRecord } from "../models/MedicalRecord.js";
 import { AccessRequest } from "../models/AccessRequest.js";
+import { DoctorProfile } from "../models/DoctorProfile.js";
 import { AuditLog } from "../models/AuditLog.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -69,12 +70,32 @@ export const getAccessRequests = asyncHandler(async (req, res) => {
 
   const requests = await AccessRequest.find(filter)
     .populate("doctor", "name email walletAddress")
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const doctorIds = requests.map((r) => r.doctor?._id).filter(Boolean);
+  const profiles = await DoctorProfile.find({ user: { $in: doctorIds } }).lean();
+  const profileMap = new Map(profiles.map((p) => [p.user.toString(), p]));
+
+  const enrichedRequests = requests.map((r) => {
+    const p = r.doctor?._id ? profileMap.get(r.doctor._id.toString()) : null;
+    return {
+      ...r,
+      doctorProfile: p
+        ? {
+            specialization: p.specialization,
+            hospital: p.hospital,
+            licenseNumber: p.licenseNumber,
+            experienceYears: p.experienceYears
+          }
+        : null
+    };
+  });
 
   res.json({
     success: true,
-    count: requests.length,
-    data: { requests }
+    count: enrichedRequests.length,
+    data: { requests: enrichedRequests }
   });
 });
 
@@ -88,12 +109,32 @@ export const getGrantedAccess = asyncHandler(async (req, res) => {
     status: "granted"
   })
     .populate("doctor", "name email walletAddress")
-    .sort({ updatedAt: -1 });
+    .sort({ updatedAt: -1 })
+    .lean();
+
+  const doctorIds = grants.map((g) => g.doctor?._id).filter(Boolean);
+  const profiles = await DoctorProfile.find({ user: { $in: doctorIds } }).lean();
+  const profileMap = new Map(profiles.map((p) => [p.user.toString(), p]));
+
+  const enrichedGrants = grants.map((g) => {
+    const p = g.doctor?._id ? profileMap.get(g.doctor._id.toString()) : null;
+    return {
+      ...g,
+      doctorProfile: p
+        ? {
+            specialization: p.specialization,
+            hospital: p.hospital,
+            licenseNumber: p.licenseNumber,
+            experienceYears: p.experienceYears
+          }
+        : null
+    };
+  });
 
   res.json({
     success: true,
-    count: grants.length,
-    data: { grants }
+    count: enrichedGrants.length,
+    data: { grants: enrichedGrants }
   });
 });
 

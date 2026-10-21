@@ -1,0 +1,333 @@
+/* ==========================================================================
+   MediChain — Custom Design System & Enhancements
+   Theme: Precision Medical + Cryptographic Blockchain Aesthetic
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Color Palette */
+  --color-primary: #0284c7;
+  --color-primary-hover: #0369a1;
+  --color-primary-light: #e0f2fe;
+  --color-primary-dark: #075985;
+  
+  --color-accent: #0d9488;
+  --color-accent-light: #ccfbf1;
+  
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  
+  --color-danger: #ef4444;
+  --color-danger-light: #fee2e2;
+
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f5f9;
+  
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-light: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-border-focus: #38bdf8;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-glow-primary: 0 0 20px -3px rgba(2, 132, 199, 0.35);
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre, .font-monospace {
+  font-family: var(--font-mono) !important;
+}
+
+/* Glassmorphism Surface */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  background: var(--color-surface);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Navbar */
+.medichain-navbar {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1.5rem;
+  z-index: 1030;
+}
+
+.navbar-brand-gradient {
+  background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* Sidebar */
+.medichain-sidebar {
+  width: 260px;
+  min-height: calc(100vh - 65px);
+  background: #ffffff;
+  border-right: 1px solid var(--color-border);
+  padding: 1.5rem 1rem;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.925rem;
+  transition: all 0.15s ease;
+  margin-bottom: 0.35rem;
+}
+
+.sidebar-nav-item:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
+}
+
+.sidebar-nav-item.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.sidebar-nav-item.active i {
+  color: var(--color-primary);
+}
+
+/* Status Badges */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-pending {
+  background-color: var(--color-warning-light);
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+
+.badge-approved, .badge-confirmed, .badge-granted, .badge-verified {
+  background-color: var(--color-success-light);
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-rejected, .badge-revoked, .badge-tampered {
+  background-color: var(--color-danger-light);
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+/* Wallet Button */
+.btn-wallet {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-wallet-connected {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.btn-wallet-connected:hover {
+  background: rgba(16, 185, 129, 0.25);
+  color: #10b981;
+}
+
+.btn-wallet-mismatch {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.btn-wallet-disconnected {
+  background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+  color: #ffffff;
+  border: none;
+}
+
+.btn-wallet-disconnected:hover {
+  opacity: 0.95;
+  box-shadow: var(--shadow-glow-primary);
+  color: #ffffff;
+}
+
+/* Pulse Dot */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.pulse-dot-success {
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-green 2s infinite;
+}
+
+.pulse-dot-danger {
+  background-color: #ef4444;
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes pulse-red {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Notification Banners */
+.banner-pending-verification {
+  background: linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a;
+  border-left: 5px solid #f59e0b;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  color: #92400e;
+}
+
+.banner-mismatch {
+  background: linear-gradient(90deg, #fef2f2 0%, #fee2e2 100%);
+  border: 1px solid #fecaca;
+  border-left: 5px solid #ef4444;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  color: #991b1b;
+}
+
+/* Hero Section */
+.hero-gradient {
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+              linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  color: #ffffff;
+  padding: 5rem 1rem;
+}
+
+/* Custom Primary Button */
+.btn-primary-gradient {
+  background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary-gradient:hover {
+  opacity: 0.95;
+  box-shadow: var(--shadow-glow-primary);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Forms */
+.form-control, .form-select {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Data Table Styling */
+.table-modern {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.table-modern th {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.785rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-modern td {
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.table-modern tbody tr:hover {
+  background-color: rgba(241, 245, 249, 0.6);
+}
